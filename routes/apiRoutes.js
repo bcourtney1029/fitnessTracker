@@ -3,48 +3,43 @@ const router = require("express").Router();
 
 module.exports = (app) => {
 
-    router.use(function timeLog(req, res, next) {
+    app.use(function timeLog(req, res, next) {
         console.log("Time: ", Date.now());
         next();
     });
 
-    router.get("/api/workouts", (req, res) => {
-        db.find()
-        .then(dbWorkout => {
-            res.json(dbWorkout);
-        })
-        .catch(err => {
-            res.json(err);
-        });
-    });
+    app.get("/api/workouts", (req, res) => {
+      Workout.find({}, (err, workouts) => {
+          if(err){
+              console.log(err);
+          } else {
+              res.json(workouts)
+          }
+      });
+  });
 
-    router.post("/api/workouts", (req, res) => {
-        db.create({})
-          .then(dbWorkout => {
-            res.json(dbWorkout);
+    app.post("/api/workouts", (req, res) => {
+        Workout.create({})
+          .then(newWorkout => {
+            res.json(newWorkout);
           })
           .catch(err => {
             res.json(err);
           });
     });
       
-    router.put("/api/workouts/:id", ({ body, params }, res) => {
-        db.findByIdAndUpdate(
-          params.id,
-          { $push: { exercises: body } },
+    app.put("/api/workouts/:workout", ({ params, body }, res) => {
+      Workout.findOneAndUpdate(
+                                { _id: params.id},
+                                {$push: {excercises:body }},
+                                { upsert: true, useFindandModify:false},
+                                updatedWorkout => {
+                                    res.json(updatedWorkout);
+                                })
+  });
       
-          { new: true, runValidators: true }
-        )
-          .then(dbWorkout => {
-            res.json(dbWorkout);
-          })
-          .catch(err => {
-            res.json(err);
-          });
-    });
-      
-    router.get("/api/workouts/range", (req, res) => {
-        db.find({})
+    app.get("/api/workouts/range", (req, res) => {
+        Workout.find({})
           .then(dbWorkout => {
             res.json(dbWorkout);
           })
