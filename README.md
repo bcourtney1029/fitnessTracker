@@ -6,10 +6,10 @@ https://stark-dusk-79962.herokuapp.com/?id=5f826722f469920017b990d4
 
 ## Images
 Image of main view:
-![Image of the initial site](./public/images/fitTrack.png)
+![Image of the initial site](./public/fitTrack.PNG)
 
 Image of Workout Dashboard
-![Image of Workout Dashboard](./public/images/fitTracker.png)
+![Image of Workout Dashboard](./public/fitTracker.PNG)
 
 ## Installation 
 You will need to npm init to get all the required node modules. If you are running the code locally the local host is set to port 3001. Server.js is the file that will start the application.
