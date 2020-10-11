@@ -2,7 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const morgan = require("morgan");
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3001;
 
 const app = express();
 
@@ -17,6 +17,12 @@ mongoose.connect(MONGODB_URI,{
     useFindAndModify:false,
     useUnifiedTopology: true
 })
+
+mongoose.connection.once('open', function() {
+    console.log('made connection');
+}).on('error', function(error) {
+    console.log('error:', error);
+});
 
 require("./routes/apiRoutes")(app);
 require("./routes/htmlRoutes")(app);
